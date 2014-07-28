@@ -1,0 +1,23 @@
+#!/bin/bash
+
+REPOS="$1"
+REV="$2"
+
+SVNLOOK=/usr/bin/svnlook
+CURL=/usr/bin/curl
+
+AUTHOR=$($SVNLOOK author -r "$REV" "$REPOS")
+MESSAGE=$($SVNLOOK log -r "$REV" "$REPOS")
+DATE=$($SVNLOOK date -r 1 /var/subversion/repo)
+#yyyy-MM-dd HH:mm:ss
+FORMAT_DATE=$(echo $DATE | awk '{print $1"-"$2"-"$3}' FS="-" |  sed 's/^[ \t]*//;s/[ \t]*$//' )
+
+RESPONSE=$($CURL -s -XPUT 'http://localhost:8080/core/rest/scm' -H "content-type: application/json" \
+	 -d "{\"message\":\"$MESSAGE\",\"author\":\"$AUTHOR\",\"repository\":\"$REPOS\",\"revision\":\"$REV\",\"date\":\"$FORMAT_DATE\"}")
+
+if [ "$RESPONSE" != "1" ]; then
+	echo "$RESPONSE" 1>&2
+	exit 1
+fi
+
+exit 0
