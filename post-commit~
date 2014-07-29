@@ -8,7 +8,7 @@ CURL=/usr/bin/curl
 
 AUTHOR=$($SVNLOOK author -r "$REV" "$REPOS")
 MESSAGE=$($SVNLOOK log -r "$REV" "$REPOS")
-DATE=$($SVNLOOK date -r $REV /var/subversion/repo)
+DATE=$($SVNLOOK date -r 1 /var/subversion/repo)
 #yyyy-MM-dd HH:mm:ss
 FORMAT_DATE=$(echo $DATE | awk '{print $1"-"$2"-"$3}' FS="-" |  sed 's/^[ \t]*//;s/[ \t]*$//' )
 
