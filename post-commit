@@ -14,8 +14,10 @@ DATE=$($SVNLOOK date -r $REV /var/subversion/repo)
 #yyyy-MM-dd HH:mm:ss
 FORMAT_DATE=$(echo $DATE | awk '{print $1"-"$2"-"$3}' FS="-" |  sed 's/^[ \t]*//;s/[ \t]*$//' )
 
+LOCATION="svn://localhost/"
+
 RESPONSE=$($CURL -s -XPUT $TESYS -H "content-type: application/json" \
-	 -d "{\"message\":\"$MESSAGE\",\"author\":\"$AUTHOR\",\"repository\":\"$REPOS\",\"revision\":\"$REV\",\"date\":\"$FORMAT_DATE\"}")
+	 -d "{\"message\":\"$MESSAGE\",\"author\":\"$AUTHOR\",\"repository\":\"$LOCATION\",\"revision\":\"$REV\",\"date\":\"$FORMAT_DATE\"}")
 
 if [ "$RESPONSE" != "1" ]; then
 	echo "$RESPONSE" 1>&2
