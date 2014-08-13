@@ -8,13 +8,15 @@ CURL=/usr/bin/curl
 
 TESYS="http://localhost:8080/core/rest/controller/scm"
 
+LOCATION="svn://localhost/"
+
 MESSAGE=$($SVNLOOK log -t "$TXN" "$REPOS")
 AUTHOR=$($SVNLOOK author -t "$TXN" "$REPOS")
 
 #Que el sistema permita el commit
 
 IS_COMMIT_ALLOWED=$( $CURL -s -XPOST $TESYS -H "content-type: application/json" \
-				-d "{\"message\":\"$MESSAGE\",\"author\":\"$AUTHOR\",\"repository\":\"$REPOS\"}" )
+				-d "{\"message\":\"$MESSAGE\",\"author\":\"$AUTHOR\",\"repository\":\"$LOCATION\"}" )
 
 if [ "$IS_COMMIT_ALLOWED" != "1" ]; then
 	echo "$IS_COMMIT_ALLOWED" 1>&2
