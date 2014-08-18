@@ -6,7 +6,7 @@ REV="$2"
 SVNLOOK=/usr/bin/svnlook
 CURL=/usr/bin/curl
 
-TESYS='http://localhost:8080/core/rest/controller/scm'
+TESYS='http://localhost:8080/tesys/rest/controller/scm'
 
 AUTHOR=$($SVNLOOK author -r "$REV" "$REPOS")
 MESSAGE=$($SVNLOOK log -r "$REV" "$REPOS")
